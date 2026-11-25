@@ -1,5 +1,9 @@
 package Logic;
 
-public class Ingrediente {
+public class Ingrediente extends Item {
+	public Ingrediente(String nombre) {
+		super(nombre);
+	}
+	
 
 }
