@@ -1,13 +1,16 @@
 package Control;
 
 import java.util.List;
-
 import Logica.Etiqueta;
 import Logica.Ingrediente;
 import Logica.Item;
 import Logica.Linea;
 import Logica.Receta;
 import Logica.Utensilio;
+import Logica.Dificultad;
+import Excepciones.RecetaNoExisteException;
+import Excepciones.RecetaNoValidaException;
+import java.awt.Image;
 
 public class ControlRecetas {
 
@@ -23,6 +26,42 @@ public class ControlRecetas {
 		this.recetas = recetas;
 		this.etiquetas = etiquetas;
 		this.utensilios = utensilios;
+	}
+	
+	public void addReceta(String nombre, Double tiempo, Integer porciones, String procedimiento,
+			List<Image> fotos, Dificultad dificultad, List<Utensilio> utensilios,
+			List<Etiqueta> etiquetas, List<Linea> lineas) throws RecetaNoValidaException{
+		StringBuilder errores = new StringBuilder();
+		if (nombre == null || nombre.trim().isEmpty()) {
+			errores.append("El nombre está vacío.\n");
+		} else {
+			for (Receta receta : recetas) {
+				if (receta.getNombre().trim().equalsIgnoreCase(nombre.trim())) {
+					errores.append("Ya existe una receta con este nombre.\n");
+				}
+			}
+		}
+		if (lineas == null || lineas.isEmpty()) {
+			errores.append("La receta debe tener al menos un ingrediente. \n");
+		}
+		if (procedimiento == null || procedimiento.trim().isEmpty()) {
+			errores.append("La receta no tiene procedimiento. \n");
+		}
+		if (errores.length() > 0) {
+			throw new RecetaNoValidaException(errores.toString());
+		}
+		Receta nuevaReceta = new Receta(nombre.trim(), tiempo, porciones, procedimiento,
+				fotos, dificultad, utensilios, etiquetas, lineas);
+		
+		recetas.add(nuevaReceta);
+		recetas.sort((r1, r2) -> r1.getNombre().compareToIgnoreCase(r2.getNombre()));
+	}
+	
+	public Receta verReceta(int pos) throws RecetaNoExisteException{
+		if (verificarExistenciaReceta(pos)) {  //Este método no está creado aún.
+			return recetas.get(pos);
+		} else throw new RecetaNoExisteException("La receta no existe.");
+		//RecetaNoExisteException es una excepcion propia que está en el package excepciones
 	}
 	
 	public List<Ingrediente> verListaIngredientes() {
@@ -124,5 +163,9 @@ public class ControlRecetas {
 			}
 		}
 		return false;
+	}
+	
+	private boolean verificarExistenciaReceta(int pos) {
+		return true;
 	}
 }

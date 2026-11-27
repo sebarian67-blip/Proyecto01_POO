@@ -21,11 +21,11 @@ public class Receta {
 		this.tiempo = tiempo;
 		this.porciones = porciones;
 		this.procedimiento = procedimiento;
-		this.fotos = new LinkedList<>();
+		this.fotos = new LinkedList<>(fotos);
 		this.dificultad = dificultad;
-		this.utensilios = new LinkedList<>();
-		this.etiquetas = new LinkedList<>();
-		this.lineas = new LinkedList<>();
+		this.utensilios = new LinkedList<>(utensilios);
+		this.etiquetas = new LinkedList<>(etiquetas);
+		this.lineas = new LinkedList<>(lineas);
 	}
 	public String getNombre() {
 		return nombre;
@@ -82,7 +82,7 @@ public class Receta {
 	public void setEtiqueta(Etiqueta etiqueta) {
 		etiquetas.add(etiqueta);
 	}
-	public void remveEtiqueta(int pos) {
+	public void removeEtiqueta(int pos) {
 		etiquetas.remove(pos);
 	}
 	public List<Linea> getLineas() {
